@@ -247,7 +247,7 @@ export default UpdateProfile;
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     height: 200,
   },
   avatar: {
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     alignSelf: 'flex-start',
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     height:
       (Dimensions.get('window').height + Dimensions.get('window').width) / 30,
     width:
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
-    color: '#AF1123',
+    color: '#00ad57',
     marginTop: 10,
   },
   description: {
@@ -333,14 +333,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
   },
   btnParentSection: {
     height: 50,
     // borderRadius: 30,
     // backgroundColor:"pink",
     // borderWidth:1,
-    // borderColor:'#AF1123',
+    // borderColor:'#00ad57',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     width: 125,
     height: 35,
     marginTop: 20,
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,

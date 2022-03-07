@@ -59,7 +59,7 @@ export default Profile;
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     height: 200,
   },
   container: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
-    color: '#AF1123',
+    color: '#00ad57',
     marginTop: 10,
     textTransform: 'capitalize',
   },
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
   },
 });

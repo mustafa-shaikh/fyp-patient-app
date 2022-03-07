@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-target 'DiasporaClient' do
+target 'ehealth' do
   config = use_native_modules!
 
   use_react_native!(
@@ -22,7 +22,7 @@ target 'DiasporaClient' do
 
   pod 'RNImageToPdf', :path => '../node_modules/react-native-image-to-pdf'
 
-  target 'DiasporaClientTests' do
+  target 'ehealthTests' do
     inherit! :complete
     # Pods for testing
   end

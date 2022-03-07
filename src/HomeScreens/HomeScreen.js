@@ -104,7 +104,7 @@ const UpdateCaseView = ({headerTitle}) => {
           styles.paddingHeader,
           {flexDirection: 'row', backgroundColor: '#FFFFFF', borderRadius: 10},
         ]}>
-        <Text style={[styles.View1_subtxt1, {width: '90%', color: '#AF1123'}]}>
+        <Text style={[styles.View1_subtxt1, {width: '90%', color: '#00ad57'}]}>
           Fill more details
         </Text>
         <View style={styles.yellowDot}></View>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     margin: '2%',
     elevation: 10,
     borderRadius: 10,
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
   },
   paddingGlobal: {
     paddingVertical: '5%',
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   line: {
     marginVertical: 10,
     borderWidth: 0.42,
-    borderTopColor: '#AF1123',
+    borderTopColor: '#00ad57',
   },
   paddingHeader: {
     paddingHorizontal: '7%',
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
   },
   addButton: {
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     width: hp('8%'),
     height: hp('8%'),
     borderRadius: 10000,

@@ -106,7 +106,7 @@ const SignUpScreen = ({navigation}) => {
             If you have already an account, click here to{' '}
           </Text>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={[styles.footertext, {color: 'rgb(254,141,123)'}]}>
+            <Text style={[styles.footertext, {color: '#00ad57'}]}>
               Sign In
             </Text>
           </TouchableOpacity>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: '10%',
     alignSelf: 'center',
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     alignItems: 'center',
     borderRadius: 1000,
     justifyContent: 'center',

@@ -80,7 +80,7 @@ const LoginScreen = ({navigation}) => {
             Dont have an account? Click here to{' '}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={[styles.footertext, {color: '#AF1123'}]}>Sign Up</Text>
+            <Text style={[styles.footertext, {color: '#00ad57'}]}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: '10%',
     alignSelf: 'center',
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     alignItems: 'center',
     borderRadius: 1000,
     justifyContent: 'center',

@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: '7%',
     padding: '3.5%',
     borderRadius: 10,
-    backgroundColor: '#AF1123'
+    backgroundColor: '#00ad57'
   },
   btntxt: {
     textAlign: 'center',

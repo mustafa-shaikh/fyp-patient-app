@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop:'10%',
     // marginButtons:'10%',
     alignSelf:'center',
-    backgroundColor:"#AF1123",
+    backgroundColor:"#00ad57",
     alignItems: 'center',
     borderRadius:1000,
     justifyContent: 'center',

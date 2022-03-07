@@ -15,8 +15,8 @@ export function DrawerContent(props) {
     {title: 'Dashboard', selected: true},
     // {title:"Cases", selected:false},
     // {title:"Laywer", selected:false},
-    {title: 'Payment', selected: false},
-    {title: 'Cerenada', selected: false},
+    // {title: 'Payment', selected: false},
+    // {title: 'Cerenada', selected: false},
     // {title:"Contact Us", selected:false},
     {title: 'Sign Out', selected: false},
   ]);
@@ -42,7 +42,7 @@ export function DrawerContent(props) {
           style={[
             {
               height: '100%',
-              backgroundColor: !selected ? '#1a1a1a' : '#AF1123',
+              backgroundColor: !selected ? '#1a1a1a' : '#00ad57',
               width: '2%',
             },
           ]}></View>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '3%',
     paddingVertical: '7%',
     backgroundColor: 'rgb(233,236,239)',
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
   },
   body: {
     // paddingHorizontal:'10%',

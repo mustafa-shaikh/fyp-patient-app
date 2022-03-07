@@ -79,7 +79,7 @@ const GeneralScreen = ({navigation}) => {
         </ScrollView>
       </View>
       <View style={styles.footer}>
-        <Text style={[styles.displayText, {color: '#AF1123'}]}>
+        <Text style={[styles.displayText, {color: '#00ad57'}]}>
           To access more features
         </Text>
         <View style={[styles.row]}>
@@ -88,7 +88,7 @@ const GeneralScreen = ({navigation}) => {
             onPress={() => navigation.navigate('SignIn')}>
             <Text style={[styles.txtbtn]}>Sign In</Text>
           </TouchableOpacity>
-          <Text style={[styles.displayText, {color: '#AF1123'}]}>OR</Text>
+          <Text style={[styles.displayText, {color: '#00ad57'}]}>OR</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('SignUp')}>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: 'flex-start',
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     // marginLeft: 20,
     marginHorizontal: 10,
     alignItems: 'center',

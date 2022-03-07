@@ -31,7 +31,7 @@ function MyStack() {
   }, [user]);
   return user == undefined ? null : (
     <Stack.Navigator
-      initialRouteName={user.isVerified ? 'HomeScreen' : 'General'}
+      initialRouteName={user.isVerified ? 'HomeScreen' : 'SignIn'}
       screenOptions={{animationEnabled: false, headerShown: false}}>
       <Stack.Screen
         name="General"

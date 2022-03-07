@@ -189,7 +189,7 @@ const CasesScreen = props => {
     <View style={styles.container}>
       {onScreenLoad ? (
         <View style={{justifyContent: 'center', flex: 1}}>
-          <ActivityIndicator size="large" color="#AF1123" />
+          <ActivityIndicator size="large" color="#00ad57" />
         </View>
       ) : (
         <>
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
     // borderRadius: 30,
     // backgroundColor:"pink",
     // borderWidth:1,
-    // borderColor:'#AF1123',
+    // borderColor:'#00ad57',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
   headingStyles: {
     // marginTop: 2,
     paddingVertical: 7,
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     color: 'white',
     width: '50%',
     fontWeight: 'bold',
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     textAlign: 'center',
-    backgroundColor: '#AF1123',
+    backgroundColor: '#00ad57',
     height:
       (Dimensions.get('window').height + Dimensions.get('window').width) / 40,
     width:
