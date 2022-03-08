@@ -80,7 +80,7 @@ function MyStack() {
 function MyDrawer() {
   return (
     <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Dashboard" component={HomeScreen} />
+      <Drawer.Screen name="E-Health" component={HomeScreen} />
       <Drawer.Screen
         name="Cerenada"
         component={Cerenada}

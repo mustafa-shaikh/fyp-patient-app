@@ -1,5 +1,5 @@
 export const Role = {
-    Client: 'Client'
+    Patient: 'Patient'
 }
 
 export const Status  = {
