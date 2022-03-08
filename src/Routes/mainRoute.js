@@ -16,6 +16,7 @@ import Payment from '../Screens/WebViewPayment';
 import Profile from '../Screens/Profile';
 import UpdateProfile from '../Screens/UpdateProfile';
 import CasesScreen from '../HomeScreens/CasesScreen';
+import LinkedDoctorsScreen from '../HomeScreens/LinkedDoctorsScreen';
 import HelpScreen from '../HomeScreens/HelpScreen';
 import LaywerScreen from '../HomeScreens/LaywerScreen';
 import AddCaseSceen from '../Screens/AddCase';
@@ -66,6 +67,11 @@ function MyStack() {
       <Stack.Screen
         name="CasesScreen"
         component={CasesScreen}
+        options={{headerShown: true, title: 'Cases'}}
+      />
+       <Stack.Screen
+        name="LinkedDoctorsScreen"
+        component={LinkedDoctorsScreen}
         options={{headerShown: true, title: 'Cases'}}
       />
       <Stack.Screen
