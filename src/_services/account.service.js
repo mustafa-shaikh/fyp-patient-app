@@ -31,7 +31,7 @@ export const accountService = {
   validateResetToken, //not needed
   getById, //not needed
   create, //not needed
-  getAll, //not needed
+  getAllHospitals, //not needed
   delete: _delete, //not needed
   user: userSubject.asObservable(),
   get userValue() {
@@ -100,8 +100,8 @@ function resetPassword({token, password, confirmPassword}) {
   });
 }
 
-function getAll() {
-  return fetchWrapper.get(`${baseUrl}/`);
+function getAllHospitals() {
+  return fetchWrapper.get(`${baseUrl}/hospitals`);
 }
 
 function getAllLawyers() {
@@ -125,7 +125,7 @@ function getClientById(id) {
 }
 
 function getCaseById(id) {
-  return fetchWrapper.get(`${baseUrl}/case/${id}`);
+  return fetchWrapper.get(`${baseUrl}/hospital/${id}`);
 }
 function getById(id) {
   return fetchWrapper.get(`${baseUrl}/${id}`);

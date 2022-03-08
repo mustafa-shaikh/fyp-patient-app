@@ -39,7 +39,7 @@ const CaseView = ({item}) => {
             borderTopRightRadius: 10,
             flexDirection: 'row',
             backgroundColor:
-              item.hospitalStatus == 'authorized' ? '#363842' : '#6b03fc',
+              item.doctorstatus == 'authorized' ? '#363842' : '#6b03fc',
           },
         ]}>
         <Text
@@ -54,13 +54,13 @@ const CaseView = ({item}) => {
                 65,
             },
           ]}>
-          {item.name}
+          {item.firstName + ' ' + item.lastName}
         </Text>
       </View>
       <View style={[styles.paddingbody, {flexDirection: 'row'}]}>
         <View style={{width: '100%', justifyContent: 'center'}}>
+          <ListView title="Title" value={item.title} />
           <ListView title="City" value={item.city} />
-          <ListView title="Address" value={item.hospitalAddress} />
           <ListView title="Contact" value={item.email} />
         </View>
       </View>
@@ -91,58 +91,35 @@ const CaseView = ({item}) => {
   );
 };
 
-const HomeScreen = ({navigation, route}) => {
-  const [hospitals, setHospitals] = useState([]);
-  const user = route.params ? route.params.user : accountService.userValue;
+const LinkedDoctorsScreen = ({navigation, route}) => {
+  const [doctors, setDoctors] = useState([]);
+  const hospitalId = route.params.hospitalId;
 
   useEffect(() => {
-    accountService.getAllHospitals().then(x => {
-      setHospitals(x);
+    accountService.getCaseById(hospitalId).then(x => {
+      console.log('doctors', x);
+      setDoctors(x.requests);
     });
   }, [route]);
-  return hospitals.length == 0 ? (
+  return doctors.length == 0 ? (
     <View style={styles.container}>
-      <View
-        style={[
-          styles.headerContent,
-          styles.paddingGlobal,
-          styles.headerColor,
-        ]}>
-        <Text style={[styles.textStyle, {color: 'white'}]}>
-          {'Hi! ' + user?.firstName + ' ' + user?.lastName}
-        </Text>
-      </View>
       <View style={[{alignItems: 'center', paddingTop: 250}]}>
         <Text style={[{color: 'blue'}]}>
-          No hospitals available in your area!
+          No doctors available in your area!
         </Text>
       </View>
     </View>
   ) : (
     <View style={styles.container}>
       {/* <ScrollView> */}
-      <View
-        style={[
-          styles.headerContent,
-          styles.paddingGlobal,
-          styles.headerColor,
-        ]}>
-        <Text style={[styles.textStyle, {color: 'white'}]}>
-          {'Hi! ' + user?.firstName + ' ' + user?.lastName}
-        </Text>
-        {/* <ListView title="Total Cases" value={26} white={true} />
-          <ListView title="Cancel Cases" value={`${2}/${26}`} white={true} />
-          <ListView title="Pending Cases" value={`${22}/${26}`} white={true} />
-          <ListView title="Approved Cases" value={`${2}/${26}`} white={true} /> */}
-      </View>
       <View style={styles.container}>
         <FlatList
-          data={hospitals}
+          data={doctors}
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('LinkedDoctorsScreen', {
-                  hospitalId: item.id,
+                navigation.navigate('CasesScreen', {
+                  doctorId: item.id,
                 })
               }>
               <CaseView item={item} />
@@ -283,4 +260,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default HomeScreen;
+export default LinkedDoctorsScreen;
