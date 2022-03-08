@@ -12,7 +12,7 @@ export function DrawerContent(props) {
   const {navigation} = props;
   const [currentActiveState, setCorrentState] = useState(0);
   const [list, setList] = useState([
-    {title: 'Dashboard', selected: true},
+    {title: 'E-Health', selected: true},
     // {title:"Cases", selected:false},
     // {title:"Laywer", selected:false},
     // {title: 'Payment', selected: false},
@@ -25,7 +25,7 @@ export function DrawerContent(props) {
   
   const getRequest = ({navigation}) => {
     accountService.signOut().then((x) => {
-      navigation.navigate('General');
+      navigation.navigate('SignIn');
     });
   };
   const CustomButton = ({selected, title, onChange}) => {

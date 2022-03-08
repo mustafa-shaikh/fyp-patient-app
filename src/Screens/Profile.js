@@ -35,13 +35,13 @@ const Profile = ({navigation, route}) => {
           <Text style={styles.info}>{data.address}</Text>
           <Text style={styles.headings}>Address</Text>
           <Text style={styles.info}>{data.city}</Text>
-          <Text style={styles.headings}>city</Text>
-          <Text style={styles.info}>{data.clientStatus}</Text>
-          <Text style={styles.headings}>status</Text>
+          <Text style={styles.headings}>City</Text>
+          <Text style={styles.info}>{data.patientStatus}</Text>
+          <Text style={styles.headings}>Status</Text>
           <Text style={styles.info}>{data.phone}</Text>
-          <Text style={styles.headings}>phone</Text>
+          <Text style={styles.headings}>Phone</Text>
           <Text style={styles.info}>{data.email}</Text>
-          <Text style={styles.headings}>email</Text>
+          <Text style={styles.headings}>Email</Text>
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={() => {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   container: {
-    backgroundColor:'white',
+    backgroundColor: 'white',
   },
   avatar: {
     width: 130,
@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
     color: '#696969',
     fontWeight: '600',
     textTransform: 'capitalize',
+    textDecorationLine: 'underline',
+    color: '#00ad57',
   },
   info: {
     fontSize: 16,

@@ -3,7 +3,7 @@ import {apiUrl, boxToken, boxUrl} from '../../config';
 import {fetchWrapper} from '../_helpers';
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `${apiUrl}/client`;
+const baseUrl = `${apiUrl}/patient`;
 
 export const accountService = {
   signIn,

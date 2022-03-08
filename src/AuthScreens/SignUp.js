@@ -34,13 +34,17 @@ const SignUpScreen = ({navigation}) => {
     accountService
       .register(data)
       .then(res => {
+        console.log("Mustafa res", res)
         if (res.status == 200) {
-          navigation.navigate('Verification', {
+          Alert.alert("Account Created Successfully")
+          navigation.navigate('SignIn', {
             email: data.email,
           });
         }
       })
-      .catch(err => {});
+      .catch(err => {
+        Alert.alert("Account exists with this Email")
+      });
   };
   return (
     <View style={styles.container}>

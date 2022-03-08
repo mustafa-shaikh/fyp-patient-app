@@ -118,9 +118,9 @@ const HomeScreen = ({navigation, route}) => {
   const [cases, setCases] = useState([]);
   const user = route.params ? route.params.user : accountService.userValue;
 
-  useEffect(() => {
-    accountService.getAllCases(user?.id).then(x => setCases(x));
-  }, []);
+  // useEffect(() => {
+  //   accountService.getAllCases(user?.id).then(x => setCases(x));
+  // }, []);
   return cases.length == 0 ? (
     <View style={styles.container}>
       <View
@@ -134,7 +134,7 @@ const HomeScreen = ({navigation, route}) => {
         </Text>
       </View>
       <View style={[{alignItems: 'center', paddingTop: 250}]}>
-        <Text style={[{color: 'blue'}]}>No Case Registered!</Text>
+        <Text style={[{color: 'blue'}]}>Doctors not available in your area!</Text>
       </View>
     </View>
   ) : (
