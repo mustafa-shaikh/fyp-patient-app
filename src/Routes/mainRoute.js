@@ -16,6 +16,7 @@ import Payment from '../Screens/WebViewPayment';
 import Profile from '../Screens/Profile';
 import UpdateProfile from '../Screens/UpdateProfile';
 import CasesScreen from '../HomeScreens/CasesScreen';
+import RecordsScreen from '../HomeScreens/RecordsScreen';
 import LinkedDoctorsScreen from '../HomeScreens/LinkedDoctorsScreen';
 import HelpScreen from '../HomeScreens/HelpScreen';
 import LaywerScreen from '../HomeScreens/LaywerScreen';
@@ -67,17 +68,22 @@ function MyStack() {
       <Stack.Screen
         name="CasesScreen"
         component={CasesScreen}
-        options={{headerShown: true, title: 'Cases'}}
+        options={{headerShown: true, title: 'Details'}}
+      />
+      <Stack.Screen
+        name="RecordsScreen"
+        component={RecordsScreen}
+        options={{headerShown: true, title: 'Records'}}
       />
        <Stack.Screen
         name="LinkedDoctorsScreen"
         component={LinkedDoctorsScreen}
-        options={{headerShown: true, title: 'Cases'}}
+        options={{headerShown: true, title: 'Doctors'}}
       />
       <Stack.Screen
-        name="AddScreen"
+        name="Diagnose"
         component={AddCaseSceen}
-        options={{headerShown: true, title: 'Add New Case'}}
+        options={{headerShown: true, title: 'Diagnose'}}
       />
     </Stack.Navigator>
   );
@@ -93,8 +99,8 @@ function MyDrawer() {
         options={{headerShown: true}}
       />
       <Drawer.Screen
-        name="Cases"
-        component={CasesScreen}
+        name="Records"
+        component={RecordsScreen}
         options={{headerShown: true}}
       />
       <Drawer.Screen

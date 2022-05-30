@@ -1,6 +1,6 @@
-import {BehaviorSubject} from 'rxjs';
-import {apiUrl, boxToken, boxUrl} from '../../config';
-import {fetchWrapper} from '../_helpers';
+import { BehaviorSubject } from 'rxjs';
+import { apiUrl, boxToken, boxUrl } from '../../config';
+import { fetchWrapper } from '../_helpers';
 
 const userSubject = new BehaviorSubject(null);
 const baseUrl = `${apiUrl}/patient`;
@@ -13,6 +13,7 @@ export const accountService = {
   resetPassword,
   updateProfile, //modift
   createCase,
+  createAppointment,
 
   getAllLawyers,
   getAllClients,
@@ -21,6 +22,8 @@ export const accountService = {
   getLawyerById,
   getClientById,
   getCaseById,
+  sendReport,
+  // getDoctorSchedule,
 
   updateLawyer,
   updateClient,
@@ -41,7 +44,7 @@ export const accountService = {
 
 function signIn(email, password) {
   return fetchWrapper
-    .post(`${baseUrl}/authenticate`, {email, password})
+    .post(`${baseUrl}/authenticate`, { email, password })
     .then(user => {
       // publish user to subscribers and start timer to refresh token
       userSubject.next(user);
@@ -71,6 +74,11 @@ function refreshToken() {
   });
 }
 
+function sendReport(params) {
+  // console.log("params", params)
+  return fetchWrapper.post_media(`${baseUrl}/send-report`, params);
+}
+
 function register(params) {
   return fetchWrapper.post(`${baseUrl}/register`, params);
 }
@@ -80,19 +88,24 @@ function createCase(params) {
   return fetchWrapper.post(`${baseUrl}/create-case`, params);
 }
 
+function createAppointment(params) {
+  // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
+  return fetchWrapper.post(`${baseUrl}/create-appointment`, params);
+}
+
 function verifyEmail(pin, email) {
-  return fetchWrapper.post(`${baseUrl}/verify-email`, {pin, email});
+  return fetchWrapper.post(`${baseUrl}/verify-email`, { pin, email });
 }
 
 function forgotPassword(email) {
-  return fetchWrapper.post(`${baseUrl}/forgot-password`, {email});
+  return fetchWrapper.post(`${baseUrl}/forgot-password`, { email });
 }
 
 function validateResetToken(token) {
-  return fetchWrapper.post(`${baseUrl}/validate-reset-token`, {token});
+  return fetchWrapper.post(`${baseUrl}/validate-reset-token`, { token });
 }
 
-function resetPassword({token, password, confirmPassword}) {
+function resetPassword({ token, password, confirmPassword }) {
   return fetchWrapper.post(`${baseUrl}/reset-password`, {
     token,
     password,
@@ -140,7 +153,7 @@ function updateProfile(params) {
     // update stored user if the logged in user updated their own record
     if (user.id === userSubject.value.id) {
       // publish updated user to subscribers
-      user = {...userSubject.value, ...user};
+      user = { ...userSubject.value, ...user };
       userSubject.next(user);
     }
     return user;

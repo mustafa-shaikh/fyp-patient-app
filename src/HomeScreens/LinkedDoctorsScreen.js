@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,27 +9,27 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {color} from 'react-native-reanimated';
+import { color } from 'react-native-reanimated';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {accountService} from '../_services/account.service';
-const ListView = ({title, value, white}) => {
+import { accountService } from '../_services/account.service';
+const ListView = ({ title, value, white }) => {
   return (
     <View style={styles.View1_sub_con}>
-      <Text style={[styles.View1_subtxt1, white ? {color: '#fff'} : null]}>
+      <Text style={[styles.View1_subtxt1, white ? { color: '#fff' } : null]}>
         {title}
       </Text>
-      <Text style={[styles.View1_subtxt2, white ? {color: '#fff'} : null]}>
+      <Text style={[styles.View1_subtxt2, white ? { color: '#fff' } : null]}>
         {value}
       </Text>
     </View>
   );
 };
-const CaseView = ({item}) => {
+const CaseView = ({ item }) => {
   return (
-    <View style={[styles.headerContent, {backgroundColor: '#fff'}]}>
+    <View style={[styles.headerContent, { backgroundColor: '#fff' }]}>
       <View
         style={[
           styles.paddingHeader,
@@ -57,16 +57,16 @@ const CaseView = ({item}) => {
           {item.firstName + ' ' + item.lastName}
         </Text>
       </View>
-      <View style={[styles.paddingbody, {flexDirection: 'row'}]}>
-        <View style={{width: '100%', justifyContent: 'center'}}>
+      <View style={[styles.paddingbody, { flexDirection: 'row' }]}>
+        <View style={{ width: '100%', justifyContent: 'center' }}>
           <ListView title="Title" value={item.title} />
           <ListView title="City" value={item.city} />
           <ListView title="Contact" value={item.email} />
         </View>
       </View>
       {item.assignedTo ? (
-        <View style={[styles.paddingbody, {flexDirection: 'row'}]}>
-          <View style={{width: '100%', justifyContent: 'center'}}>
+        <View style={[styles.paddingbody, { flexDirection: 'row' }]}>
+          <View style={{ width: '100%', justifyContent: 'center' }}>
             {/* <ListView title="Type" value={item.caseType} /> */}
             <Text
               style={[
@@ -91,20 +91,20 @@ const CaseView = ({item}) => {
   );
 };
 
-const LinkedDoctorsScreen = ({navigation, route}) => {
+const LinkedDoctorsScreen = ({ navigation, route }) => {
   const [doctors, setDoctors] = useState([]);
   const hospitalId = route.params.hospitalId;
 
   useEffect(() => {
     accountService.getCaseById(hospitalId).then(x => {
-      console.log('doctors', x);
+
       setDoctors(x.requests);
     });
   }, [route]);
   return doctors.length == 0 ? (
     <View style={styles.container}>
-      <View style={[{alignItems: 'center', paddingTop: 250}]}>
-        <Text style={[{color: 'blue'}]}>
+      <View style={[{ alignItems: 'center', paddingTop: 250 }]}>
+        <Text style={[{ color: 'blue' }]}>
           No doctors available in your area!
         </Text>
       </View>
@@ -115,11 +115,11 @@ const LinkedDoctorsScreen = ({navigation, route}) => {
       <View style={styles.container}>
         <FlatList
           data={doctors}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('CasesScreen', {
-                  doctorId: item.id,
+                  doctorId: item,
                 })
               }>
               <CaseView item={item} />

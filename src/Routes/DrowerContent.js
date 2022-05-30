@@ -13,7 +13,8 @@ export function DrawerContent(props) {
   const [currentActiveState, setCorrentState] = useState(0);
   const [list, setList] = useState([
     {title: 'E-Health', selected: true},
-    // {title:"Cases", selected:false},
+    {title: 'Diagnose', selected: false},
+    {title:"Records", selected:false},
     // {title:"Laywer", selected:false},
     // {title: 'Payment', selected: false},
     // {title: 'Cerenada', selected: false},
