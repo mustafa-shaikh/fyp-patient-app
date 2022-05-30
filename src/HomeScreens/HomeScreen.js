@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {color} from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -151,14 +152,19 @@ const HomeScreen = ({navigation, route}) => {
         />
       </View>
       {/* </ScrollView> */}
-      {/* <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddScreen')}>
-        <AntDesign
-          name="plus"
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('Diagnose')}>
+        <Icon
+          name="home"
           style={styles.icon}
-          size={(Dimensions.get('window').height + Dimensions.get('window').width) / 32}
+          size={
+            (Dimensions.get('window').height + Dimensions.get('window').width) /
+            32
+          }
           color="#fff"
         />
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
