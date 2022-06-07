@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import uploadDropBoxFile from '../Components/uploadToBox';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { CandlestickChart } from 'react-native-wagmi-charts';
 import moment from 'moment';
 import {
   widthPercentageToDP as wp,
@@ -28,9 +29,62 @@ const CasesScreen = props => {
   const [onScreenLoad, setOnScreenLoad] = useState(true);
   const [cases, setCase] = useState(null);
   const [docUpdate, setDocUpdate] = useState(false);
+
+  const [renderData, setRenderData] = useState(null);
   const user = accountService.userValue;
+  const data = [
+    {
+      timestamp: 1625945400000,
+      open: 33575.25,
+      high: 33600.52,
+      low: 33475.12,
+      close: 33520.11
+    },
+    {
+      timestamp: 1625946300000,
+      open: 33545.25,
+      high: 33560.52,
+      low: 33510.12,
+      close: 33520.11
+    },
+    {
+      timestamp: 1625947200000,
+      open: 33510.25,
+      high: 33515.52,
+      low: 33250.12,
+      close: 33250.11
+    },
+    {
+      timestamp: 1625948100000,
+      open: 33215.25,
+      high: 33430.52,
+      low: 33215.12,
+      close: 33420.11
+    }
+  ]
+
+  const [userData, setUserData] = useState(user);
+
+  const groupBy = (array, key) => {
+    // Return the end result
+    return array.reduce((result, currentValue) => {
+      // If an array already present for key, push it to the array. Else create an array and push the object
+      (result[currentValue[key]] = result[currentValue[key]] || []).push({
+        timestamp: currentValue.date,
+
+        low: currentValue.testResult < currentValue.normalRange0 ? currentValue.normalRange0 : currentValue.testResult,
+        high: currentValue.testResult > currentValue.normalRange1 ? currentValue.normalRange1 : currentValue.testResult,
+        open: currentValue.testResult,
+        close: currentValue.testResult,
+      }
+      );
+      // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+      return result;
+    }, {}); // empty object is the initial value for result object
+  };
 
   useEffect(() => {
+
     // accountService.getCaseById(props.route.params.caseId).then(x => {
     //   x.requiredDocuments = x.typeList.requiredDocuments.map(a => ({
     //     ...x.requiredDocuments.find(p => a.documentTitle === p.documentTitle),
@@ -38,9 +92,9 @@ const CasesScreen = props => {
     //   }));
     //   setCase(x);
     //   setOnScreenLoad(false);
-    //   setDocUpdate(false);
+    setDocUpdate(false);
     // });
-    console.log('records');
+
   }, [docUpdate]);
 
   const confirmUpload = obj => {
@@ -56,35 +110,12 @@ const CasesScreen = props => {
         {
           text: 'Confirm',
           onPress: () => {
-            console.log("report sending", obj);
-
-
-
-            const formData = new FormData();
-            formData.append("uri", obj.uri);
-            formData.append("type", obj.type);
-            formData.append("name", obj.name);
-
-            accountService.sendReport(formData).then(x => {
-              console.log("response= ", x)
+            console.log("report sending");
+            console.log("obj name ", obj.name)
+            accountService.sendReport({ name: obj.name }).then(x => {
+              setUserData(x);
+              setDocUpdate(true)
             })
-
-
-            // uploadDropBoxFile({
-            //   path: obj.path,
-            //   uri: obj.uri,
-            // }).then(() => {
-            //   accountService.updateCase(
-            //     obj.caseId,
-            //     (params = {
-            //       documentTitle: obj.name,
-            //       documentPath: obj.path,
-            //       documentStatus: 'submitted',
-            //     }),
-            //   );
-            //   Alert.alert('Success', 'File Uploaded Successfully');
-            //   setDocUpdate(true);
-            // });
           },
         },
       ],
@@ -97,6 +128,9 @@ const CasesScreen = props => {
         type: [DocumentPicker.types.pdf]
       }).then(res => {
         obj.uri = res[0].uri;
+        obj.type = res[0].type;
+        obj.size = res[0].size;
+        obj.name = res[0].name;
         confirmUpload(obj);
       });
     } catch (err) {
@@ -109,188 +143,55 @@ const CasesScreen = props => {
     }
   };
 
-  const Item = ({ item }) => (
-    <View style={styles.OptionGroup}>
-      <Text style={[styles.titleStyle]}>
-        {item.documentTitle[0].toUpperCase() + item.documentTitle.slice(1)}
-      </Text>
-      {item.documentStatus != 'submitted' ? (
-        <>
-          <TouchableOpacity
-            onPress={() => {
-              selectOneFile({
-                type: 'image',
-                name: item.documentTitle,
-                caseId: cases.id,
-                path:
-                  '/' +
-                  user.email.substring(0, user.email.lastIndexOf('@')) +
-                  '_' +
-                  cases.id.slice(-6) +
-                  '_' +
-                  cases.caseType +
-                  '/' +
-                  item.documentTitle +
-                  '.pdf',
-              });
-            }}>
-            <Text
-              style={[
-                styles.textField1,
-                { textDecorationLine: 'underline', color: 'green' },
-              ]}>
-              Image
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              selectOneFile({
-                type: 'pdf',
-                name: item.documentTitle,
-                caseId: cases.id,
-                path:
-                  '/' +
-                  user.email.substring(0, user.email.lastIndexOf('@')) +
-                  '_' +
-                  cases.id.slice(-6) +
-                  '_' +
-                  cases.caseType +
-                  '/' +
-                  item.documentTitle +
-                  '.pdf',
-              });
-            }}>
-            <Text
-              style={[
-                styles.textField1,
-                { textDecorationLine: 'underline', color: 'green' },
-              ]}>
-              Pdf
-            </Text>
-          </TouchableOpacity>
-          <Text style={[{ color: 'blue' }]}>
-            Description:{item.documentComment}
-          </Text>
-        </>
-      ) : (
-        <Text style={[styles.textField]}>{item.documentStatus}</Text>
-      )}
-    </View>
-  );
+  const ReportDialogue = ({ item, itemName }) => {
+    return (
+      <View>
+        {/* {console.log(item)} */}
+        <Text style={styles.textField}>{itemName}</Text>
 
-  const Item2 = ({ item }) => (
-    <View style={styles.OptionGroup}>
-      {/* <Text style={[styles.titleStyle]}>
-        {item.documentTitle[0].toUpperCase() + item.documentTitle.slice(1)}
-      </Text> */}
+        <CandlestickChart.Provider data={item}>
+          <CandlestickChart>
+            <CandlestickChart.Candles />
+            <CandlestickChart.Tooltip />
+            <CandlestickChart.Crosshair />
+          </CandlestickChart>
+          {/* <CandlestickChart.DatetimeText /> */}
+        </CandlestickChart.Provider>
 
-      <TouchableOpacity
-        onPress={() => {
-          selectOneFile({
-            type: 'image',
-            name: item.documentTitle,
-            caseId: cases.id,
-            path:
-              '/' +
-              user.email.substring(0, user.email.lastIndexOf('@')) +
-              '_' +
-              cases.id.slice(-6) +
-              '_' +
-              cases.caseType +
-              '/' +
-              item.documentTitle +
-              '.pdf',
-          });
-        }}>
-        <Text
-          style={[
-            styles.textField1,
-            { textDecorationLine: 'underline', color: 'green' },
-          ]}>
-          Image
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          selectOneFile({
-            type: 'pdf',
-            name: item.documentTitle,
-            caseId: cases.id,
-            path:
-              '/' +
-              user.email.substring(0, user.email.lastIndexOf('@')) +
-              '_' +
-              cases.id.slice(-6) +
-              '_' +
-              cases.caseType +
-              '/' +
-              item.documentTitle +
-              '.pdf',
-          });
-        }}>
-        <Text
-          style={[
-            styles.textField1,
-            { textDecorationLine: 'underline', color: 'green' },
-          ]}>
-          Pdf
-        </Text>
-      </TouchableOpacity>
-      <Text style={[{ color: 'blue' }]}>
-        Description:{item.documentComment}
-      </Text>
-    </View>
-  );
-
-  const Item1 = ({ item }) => (
-    <View style={styles.OptionGroup}>
-      <Text style={[styles.titleStyle]}>
-        {item.title[0].toUpperCase() + item.title.slice(1)}
-      </Text>
-      <Text style={[styles.textField]}>{item.text}</Text>
-    </View>
-  );
-
-  const renderItem = ({ item }) => <Item item={item} />;
-  const renderItem1 = ({ item }) => <Item1 item={item} />;
+      </View>
+    )
+  }
 
   const { navigation } = props;
   return (
 
     <View>
-      <Text>
-        Mustafa
-      </Text>
-      <Text>
-        Mustafa
-      </Text>
-      <Text>
-        Mustafa
-      </Text>
-      <Text>
-        Mustafa
-      </Text>
-      <Text>
-        Mustafa
-      </Text>
+      {/* {console.log("okay0", userData.reports)} */}
+      {renderData == null && userData.reports ? setRenderData(groupBy(userData.reports, "testName")) : null}
+      {renderData ? (
+        <View style={[styles.smallContainer]}>
+          {/* {console.log("okay1", renderData)} */}
+          <ScrollView>
+            {
+              < FlatList
+                data={Object.keys(renderData)}
+                extraData={docUpdate}
+                renderItem={({ item }) => (
+                  <ReportDialogue item={renderData[item]} itemName={item} />
+                )}
+              />
+            }
+
+          </ScrollView>
+        </View>
+      ) : null}
 
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {
           selectOneFile({
-            type: 'pdf',
-            name: "report.pdf",
-            // caseId: cases.id,
-            path:
-              'record' +
-              // user.email.substring(0, user.email.lastIndexOf('@')) +
-              // '_' +
-              // cases.id.slice(-6) +
-              // '_' +
-              // cases.caseType +
-              // '/' +
-              // item.documentTitle +
-              '.pdf',
+            // type: 'pdf',
+            name: 'report_' + user.id + '.pdf',
           });
         }}>
         <Icon
@@ -302,222 +203,19 @@ const CasesScreen = props => {
           }
           color="#fff"
         />
-        {/* <Text
-              style={[
-                styles.textField1,
-                { textDecorationLine: 'underline', color: 'green' },
-              ]}>
-              Pdf
-            </Text> */}
       </TouchableOpacity>
-      {/* <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Diagnose')}>
-        <Icon
-          name="home"
-          style={styles.icon}
-          size={
-            (Dimensions.get('window').height + Dimensions.get('window').width) /
-            32
-          }
-          color="#fff"
-        />
-      </TouchableOpacity> */}
     </View>
-    // <View style={styles.container}>
-    //   {onScreenLoad ? (
-    //     <View style={{justifyContent: 'center', flex: 1}}>
-    //       <ActivityIndicator size="large" color="#00ad57" />
-    //     </View>
-    //   ) : (
-    //     <>
-    //       <View
-    //         style={[
-    //           styles.smallContainer,
-    //           {
-    //             height:
-    //               (Dimensions.get('window').height +
-    //                 Dimensions.get('window').width) /
-    //               5,
-    //           },
-    //         ]}>
-    //         <Text style={[styles.title]}>Details:</Text>
-    //         <View style={styles.OptionGroup}>
-    //           <Text style={[styles.titleStyle]}>Subject</Text>
-    //           <Text style={[styles.textField]}>{cases.caseSubject}</Text>
-    //         </View>
-    //         <View style={styles.OptionGroup}>
-    //           <Text style={[styles.titleStyle]}>Type</Text>
-    //           <Text style={[styles.textField]}>{cases.caseType}</Text>
-    //         </View>
-    //         <View style={styles.OptionGroup}>
-    //           <Text style={[styles.titleStyle]}>Status</Text>
-    //           <Text style={[styles.textField]}>{cases.caseStatus}</Text>
-    //         </View>
-    //         <View style={styles.OptionGroup}>
-    //           <Text style={[styles.titleStyle]}>Updated</Text>
-    //           <Text style={[styles.textField]}>
-    //             {moment(cases.updated).format('DD MMMM YYYY , HH : MM A')}
-    //           </Text>
-    //         </View>
-    //         {cases.caseStatus == 'new' ? (
-    //           <View style={styles.OptionGroup1}>
-    //             <Text style={[styles.titleStyle]}>
-    //               In Citizenship and Immigration Services
-    //             </Text>
-    //             <TouchableOpacity
-    //               onPress={() => {
-    //                 const msg = 'https://egov.uscis.gov/casestatus/landing.do';
-    //                 navigation.navigate('WebScreen', {
-    //                   msg: msg,
-    //                 });
-    //               }}>
-    //               <Text
-    //                 style={[
-    //                   styles.textField,
-    //                   {textDecorationLine: 'underline', color: 'green'},
-    //                 ]}>
-    //                 Review the application status here:
-    //               </Text>
-    //             </TouchableOpacity>
-    //             <TouchableOpacity
-    //               onPress={() => {
-    //                 const msg = 'https://egov.uscis.gov/processing-times/';
-    //                 navigation.navigate('WebScreen', {
-    //                   msg: msg,
-    //                 });
-    //               }}>
-    //               <Text
-    //                 style={[
-    //                   styles.textField,
-    //                   {textDecorationLine: 'underline', color: 'green'},
-    //                 ]}>
-    //                 Review processing times here:
-    //               </Text>
-    //             </TouchableOpacity>
-    //           </View>
-    //         ) : cases.caseStatus == 'pending' ? (
-    //           <View style={styles.OptionGroup1}>
-    //             <Text style={[styles.titleStyle]}>In Immigration Court</Text>
-    //             <TouchableOpacity
-    //               onPress={() => {
-    //                 const msg =
-    //                   'https://portal.eoir.justice.gov/InfoSystem/Form?Language=EN';
-    //                 navigation.navigate('WebScreen', {
-    //                   msg: msg,
-    //                 });
-    //               }}>
-    //               <Text
-    //                 style={[
-    //                   styles.textField,
-    //                   {textDecorationLine: 'underline', color: 'green'},
-    //                 ]}>
-    //                 Check Hearings Information here:
-    //               </Text>
-    //             </TouchableOpacity>
-    //           </View>
-    //         ) : cases.caseStatus == 'processing' ? (
-    //           <View style={styles.OptionGroup1}>
-    //             <Text style={[styles.titleStyle]}>In National Visa Center</Text>
-    //             <TouchableOpacity
-    //               onPress={() => {
-    //                 const msg = 'https://ceac.state.gov/IV/Login.aspx';
-    //                 navigation.navigate('WebScreen', {
-    //                   msg: msg,
-    //                 });
-    //               }}>
-    //               <Text
-    //                 style={[
-    //                   styles.textField,
-    //                   {textDecorationLine: 'underline', color: 'green'},
-    //                 ]}>
-    //                 Access your case information here:
-    //               </Text>
-    //             </TouchableOpacity>
-    //           </View>
-    //         ) : (
-    //           <View style={styles.OptionGroup1}>
-    //             <Text style={[styles.titleStyle]}>Stage</Text>
-    //             <Text style={[styles.textField]}>
-    //               Please review In-Office Stages in progress bar
-    //             </Text>
-    //           </View>
-    //         )}
-    //       </View>
-    //       {cases.assignedTo ? (
-    //         <View
-    //           style={[
-    //             styles.smallContainer,
-    //             {
-    //               height:
-    //                 (Dimensions.get('window').height +
-    //                   Dimensions.get('window').width) /
-    //                 7.5,
-    //             },
-    //           ]}>
-    //           <Text style={[styles.title]}>Paralegal:</Text>
-    //           <View style={styles.OptionGroup}>
-    //             <Text style={[styles.titleStyle]}>Name</Text>
-    //             <Text style={[styles.textField]}>
-    //               {cases.assignedTo.firstName + ' ' + cases.assignedTo.lastName}
-    //             </Text>
-    //           </View>
-    //           <View style={styles.OptionGroup}>
-    //             <Text style={[styles.titleStyle]}>Email</Text>
-    //             <Text style={[styles.textField]}>{cases.assignedTo.email}</Text>
-    //           </View>
-    //           <View style={styles.OptionGroup}>
-    //             <Text style={[styles.titleStyle]}>City</Text>
-    //             <Text style={[styles.textField]}>{cases.assignedTo.city}</Text>
-    //           </View>
-    //           <View style={styles.OptionGroup}>
-    //             <Text style={[styles.titleStyle]}>Status</Text>
-    //             <Text style={[styles.textField]}>
-    //               {cases.assignedTo.lawyerStatus}
-    //             </Text>
-    //           </View>
-    //         </View>
-    //       ) : null}
-    //       {cases.requiredDocuments ? (
-    //         <View style={[styles.smallContainer]}>
-    //           <Text style={[styles.title]}>Documents:</Text>
-    //           {
-    //             <FlatList
-    //               data={cases.requiredDocuments}
-    //               extraData={docUpdate}
-    //               renderItem={renderItem}
-    //             />
-    //           }
-    //         </View>
-    //       ) : null}
-    //       {cases.statusMessages ? (
-    //         <View style={[styles.smallContainer]}>
-    //           <Text style={[styles.title]}>Case Progress:</Text>
-    //           {
-    //             <FlatList
-    //               data={cases.statusMessages}
-    //               extraData={docUpdate}
-    //               renderItem={renderItem1}
-    //             />
-    //           }
-    //         </View>
-    //       ) : (
-    //         <View>
-    //           <Item2 />
-    //         </View>
-    //       )}
-    //     </>
-    //   )}
-    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   smallContainer: {
+    backgroundColor: "white",
+    paddingTop: "10%",
     borderColor: 'grey',
     borderWidth: 0.2,
     height:
-      (Dimensions.get('window').height + Dimensions.get('window').width) / 7,
+      (Dimensions.get('window').height + Dimensions.get('window').width) / 1.7,
   },
   container: {
     flex: 1,
@@ -529,19 +227,13 @@ const styles = StyleSheet.create({
   },
   btnParentSection: {
     height: 50,
-    // borderRadius: 30,
-    // backgroundColor:"pink",
-    // borderWidth:1,
-    // borderColor:'#00ad57',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    // marginTop: 20,
   },
   btnSection: {
     width: 125,
     height: 35,
-    // marginTop: 20,
     backgroundColor: '#2e29cc',
     alignItems: 'center',
     justifyContent: 'center',
@@ -616,7 +308,7 @@ const styles = StyleSheet.create({
   textField: {
     textAlign: 'center',
     alignSelf: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#00ad57',
     height:
       (Dimensions.get('window').height + Dimensions.get('window').width) / 40,
     width:

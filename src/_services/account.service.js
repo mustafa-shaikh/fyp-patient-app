@@ -74,9 +74,12 @@ function refreshToken() {
   });
 }
 
+// function sendReport(params) {
+//   return fetchWrapper.post_media(`${baseUrl}/send-report`, params);
+// }
+
 function sendReport(params) {
-  // console.log("params", params)
-  return fetchWrapper.post_media(`${baseUrl}/send-report`, params);
+  return fetchWrapper.post(`${baseUrl}/send-report`, params);
 }
 
 function register(params) {
