@@ -125,8 +125,8 @@
 //   },
 // });
 
-import React, {useState} from 'react';
-import {Text, StyleSheet, View, FlatList} from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, View, FlatList } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 const Diagnose = () => {
@@ -271,7 +271,7 @@ const Diagnose = () => {
       <View style={styles.container}>
         <FlatList
           data={Object.keys(symptoms)}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             // <TouchableOpacity
             //   onPress={() =>
             //     navigation.navigate('LinkedDoctorsScreen', {
@@ -283,7 +283,7 @@ const Diagnose = () => {
               <CheckBox
                 value={symptoms[item]}
                 onValueChange={txt => {
-                  console.log('Mustafa',txt , item, symptoms[item]);
+                  console.log('Mustafa', txt, item, symptoms[item]);
                   setSymptoms({
                     ...symptoms,
                     item:
@@ -292,7 +292,7 @@ const Diagnose = () => {
                         : (symptoms[item] = true),
                   });
                   {
-                    console.log('Mustafa',txt , item, symptoms[item]);
+                    console.log('Mustafa', txt, item, symptoms[item]);
                   }
                 }}
                 style={styles.checkbox}
