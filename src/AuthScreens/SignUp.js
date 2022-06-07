@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -17,9 +17,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {accountService} from '../_services/account.service';
+import { accountService } from '../_services/account.service';
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
     email: '',
     firstName: '',
@@ -30,11 +30,10 @@ const SignUpScreen = ({navigation}) => {
 
   const [onLoad, setOnLoad] = useState(false);
 
-  const getRequest = ({navigation}) => {
+  const getRequest = ({ navigation }) => {
     accountService
       .register(data)
       .then(res => {
-        console.log("Mustafa res", res)
         if (res.status == 200) {
           Alert.alert("Account Created Successfully")
           navigation.navigate('SignIn', {
@@ -57,7 +56,7 @@ const SignUpScreen = ({navigation}) => {
           placeholderTextColor="grey"
           style={styles.textField}
           onChangeText={txt => {
-            setData({...data, firstName: txt});
+            setData({ ...data, firstName: txt });
           }}
         />
         <TextInput
@@ -65,7 +64,7 @@ const SignUpScreen = ({navigation}) => {
           placeholderTextColor="grey"
           style={styles.textField}
           onChangeText={txt => {
-            setData({...data, lastName: txt});
+            setData({ ...data, lastName: txt });
           }}
         />
         <TextInput
@@ -73,7 +72,7 @@ const SignUpScreen = ({navigation}) => {
           placeholderTextColor="grey"
           style={styles.textField}
           onChangeText={txt => {
-            setData({...data, email: txt});
+            setData({ ...data, email: txt });
           }}
         />
         <TextInput
@@ -82,7 +81,7 @@ const SignUpScreen = ({navigation}) => {
           style={styles.textField}
           secureTextEntry
           onChangeText={txt => {
-            setData({...data, password: txt});
+            setData({ ...data, password: txt });
           }}
         />
         <TextInput
@@ -91,12 +90,12 @@ const SignUpScreen = ({navigation}) => {
           style={styles.textField}
           secureTextEntry
           onChangeText={txt => {
-            setData({...data, confirmPassword: txt});
+            setData({ ...data, confirmPassword: txt });
           }}
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => getRequest({navigation})}>
+          onPress={() => getRequest({ navigation })}>
           {onLoad ? (
             <ActivityIndicator size="small" color="#fff" />
           ) : (
@@ -110,7 +109,7 @@ const SignUpScreen = ({navigation}) => {
             If you have already an account, click here to{' '}
           </Text>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={[styles.footertext, {color: '#00ad57'}]}>
+            <Text style={[styles.footertext, { color: '#00ad57' }]}>
               Sign In
             </Text>
           </TouchableOpacity>
